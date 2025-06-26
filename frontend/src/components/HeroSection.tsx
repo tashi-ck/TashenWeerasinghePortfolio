@@ -7,7 +7,7 @@ const HeroSection: React.FC = () => {
           Tashen Weerasinghe
         </h1>
         <h2 className="text-xl md:text-2xl text-blue-600 font-medium mb-6">
-          Aspiring Fullstack Engineering Intern
+          Aspiring Fullstack Engineering Intern 
         </h2>
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-8">
           <div className="flex items-center">
