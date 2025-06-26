@@ -24,6 +24,6 @@ public class ContactController {
                 contactForm.getMessage()
         );
 
-        return ResponseEntity.ok("Message sent successfully!");
+        return ResponseEntity.ok("Message sent successfully!!");
     }
 }
