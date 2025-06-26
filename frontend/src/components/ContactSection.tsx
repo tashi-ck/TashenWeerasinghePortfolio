@@ -21,42 +21,44 @@ const ContactSection: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitStatus(null);
 
-    try {
-      const response = await fetch('http://localhost:8080/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+  try {
+    const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/api/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      setSubmitStatus({
+        success: true,
+        message: 'Message sent successfully!',
       });
-
-      if (response.ok) {
-        setSubmitStatus({
-          success: true,
-          message: 'Message sent successfully!'
-        });
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        const errorData = await response.json();
-        setSubmitStatus({
-          success: false,
-          message: errorData.message || 'Failed to send message'
-        });
-      }
-    } catch (error) {
+      setFormData({ name: '', email: '', message: '' });
+    } else {
+      const errorData = await response.json();
       setSubmitStatus({
         success: false,
-        message: 'Network error. Please try again later.'
+        message: errorData.message || 'Failed to send message.',
       });
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    setSubmitStatus({
+      success: false,
+      message: 'Network error. Please try again later.',
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <section id="contact" className="py-16 bg-gray-50 dark:bg-gray-800 rounded-xl">
